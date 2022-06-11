@@ -1,12 +1,33 @@
-PUT http://127.0.0.1:5000/auth/login
+PUT http://127.0.0.1:5000/users/password/1
 Content-Type: application/json
 
 {
-   "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InllX0B6aGFyc2FkYS5ydSIsInBhc3N3b3JkIjoiMjRhYmMzNmE5MWQ3MThiYmRhNjAwNzFmMTc3MWY0NDciLCJleHAiOjE2NjU4NTMwOTB9.qTLXYMiMXkzIrJEiVZeidqGKvkwzbt4jmLwUyDVV86w"
+  "password_1": "krumnash1",
+"password_2": "krumnash2"
 }
 ###
 GET http://127.0.0.1:5000/users
 ###
+POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRyYXhwdXhAeWFuZGV4LnJ1IiwicGFzc3dvcmQiOiJQQHNzdzByZCIsImV4cCI6MTY1NDUzODk2MH0.lNVbYeizwn2AqHSLqdourrXjE8YI8ELMT4vpsJVuwTo
 
+{
+  "email": "zalupa@gmail.com",
+"password": "krumnash1"
+}
+###
+POST http://127.0.0.1:5000/auth/register
+Content-Type: application/json
+
+{
+  "email": "vverxgan@gmail.com",
+"password": "krumnash2"
+}
+###
+POST http://127.0.0.1:5000/auth/register
+Content-Type: application/json
+
+{
+  "email": "krumnash@yande.ru",
+"password": "krumnash3"
+}

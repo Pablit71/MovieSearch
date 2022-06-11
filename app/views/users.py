@@ -3,11 +3,11 @@ import hashlib
 import datetime
 import jwt
 
-from flask import request, abort
+from flask import request, abort, jsonify
 from flask_restx import Resource, Namespace
 
 from app.models import UserSchema, User
-from app.database import db, secret, algo, admin_required, encode_h, add_user
+from app.database import db, secret, algo, admin_required, encode_h, edit_pass, edit_pass_put
 
 auth_ns = Namespace('auth')
 
@@ -24,6 +24,20 @@ class UsersView(Resource):
         return users_schema.dump(all_users), 200
 
 
+@users_ns.route('/password/<int:uid>')
+class UsersView(Resource):
+    def put(self, uid):
+        data_old = {
+            'password': request.json.get('password_1')
+        }
+        data_new = {
+            'password': request.json.get('password_2')
+        }
+        edit_pass_put(data_1=data_old, uid=uid, class_input=User, data_2=data_new)
+
+        return "", 204
+
+
 @users_ns.route('/<int:mid>')
 class UsersView(Resource):
     def get(self, mid: int):
@@ -32,17 +46,6 @@ class UsersView(Resource):
             return user_schema.dump(movie), 200
         except Exception as e:
             return str(e), 404
-
-    def put(self, mid):
-        user = db.session.query(User).get(mid)
-        req_json = request.json
-        user.email = req_json.get("email")
-        user.password = req_json.get("password")
-
-        db.session.add(user)
-        db.session.commit()
-
-        return "", 204
 
     def delete(self, mid):
         user = User.query.get(mid)
@@ -59,7 +62,7 @@ class AuthView(Resource):
             'email': request.json.get('email'),
             'password': request.json.get('password')
         }
-        add_user(data)
+        edit_pass(data)
         new_user = User(**data)
         with db.session.begin():
             db.session.add(new_user)

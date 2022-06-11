@@ -65,5 +65,29 @@ def encode_h(password):
     return password_hash
 
 
-def add_user(data):
+def edit_pass(data):
     data['password'] = encode_h(data.get('password'))
+    return data['password']
+
+
+def edit_pass_put(data_1, uid, class_input, data_2):
+    request_pass_1 = edit_pass(data_1)
+    query = f"""
+        select password
+        from user 
+        where id = '{uid}'
+        """
+    response = connect(query)[0][0]
+    if response == data_1['password']:
+        print(f'response - {response}')
+        password_edit = edit_pass(data_2)
+        print(f'password_edit - {password_edit}')
+        user = class_input.query.get(uid)
+        print(f'user - {user.password}')
+        user.password = password_edit
+        print(f'user.password - {user.password}')
+        db.session.add(user)
+        db.session.commit()
+        print("Пароли равны")
+    else:
+        print(f"Данного пароля ({data_1['password']}), не подходит в базе")
