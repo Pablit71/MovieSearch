@@ -2,8 +2,8 @@ PUT http://127.0.0.1:5000/users/password/1
 Content-Type: application/json
 
 {
-  "password_1": "krumnash1",
-"password_2": "krumnash2"
+  "password_1": "password1",
+"password_2": "password2"
 }
 ###
 GET http://127.0.0.1:5000/users
@@ -12,22 +12,22 @@ POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
 
 {
-  "email": "zalupa@gmail.com",
-"password": "krumnash1"
+  "email": "user1@gmail.com",
+"password": "password1"
 }
 ###
 POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
 
 {
-  "email": "vverxgan@gmail.com",
-"password": "krumnash2"
+  "email": "user2@gmail.com",
+"password": "password2"
 }
 ###
 POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
 
 {
-  "email": "krumnash@yande.ru",
-"password": "krumnash3"
+  "email": "user3@yandex.ru",
+"password": "password3"
 }
