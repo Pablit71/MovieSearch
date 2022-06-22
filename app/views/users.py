@@ -7,7 +7,7 @@ from flask import request, abort, jsonify
 from flask_restx import Resource, Namespace
 
 from app.models import UserSchema, User
-from app.database import db, secret, algo, admin_required, encode_h, edit_pass, edit_pass_put
+from app.database import db, admin_required, encode_h, edit_pass, edit_pass_put
 
 auth_ns = Namespace('auth')
 
@@ -62,8 +62,8 @@ class AuthView(Resource):
             'email': request.json.get('email'),
             'password': request.json.get('password')
         }
-        edit_pass(data)
-        new_user = User(**data)
+        data_up = edit_pass(data)
+        new_user = User(**data_up)
         with db.session.begin():
             db.session.add(new_user)
         return data, 201

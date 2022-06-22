@@ -1,13 +1,14 @@
+import base64
 import hashlib
 import sqlite3
 
 import jwt
-from flask import request, abort
+from flask import request, abort, current_app
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-secret = 's3cR$eT'
-algo = 'HS256'
+PWD_HASH_SALT = b'ase64.b64decode("salt")'
+PWD_HASH_ITERATIONS = 100
 
 
 def connect(query):
@@ -61,8 +62,14 @@ def admin_auth(func):
 
 
 def encode_h(password):
-    password_hash = hashlib.md5(password.encode('utf-8')).hexdigest()
-    return password_hash
+    hash_digest = hashlib.pbkdf2_hmac(
+        'sha256',
+        password.encode('utf-8'),
+        PWD_HASH_SALT,
+        PWD_HASH_ITERATIONS
+    )
+
+    return base64.b64encode(hash_digest)
 
 
 def edit_pass(data):
