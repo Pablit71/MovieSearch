@@ -1,72 +1,46 @@
 from flask import request
 from flask_restx import Resource, Namespace
-
-from app.models import MovieSchema, Movie
-from app.database import db
-from sqlalchemy import desc
+from dao.model.movie import MovieSchema
+from dao_service import movie_service
 
 movies_ns = Namespace('movies')
-
-movie_schema = MovieSchema()
-movies_schema = MovieSchema(many=True)
 
 
 @movies_ns.route('/')
 class MoviesView(Resource):
     def get(self):
-        page = request.args.get("page")
-        status = request.args.get("status")
-        if page is not None and status == "new":
-            s = db.session.query(Movie).filter().order_by(desc(Movie.year)).limit(12).offset(page)
-            return movies_schema.dump(s)
-        elif page is None and status == "new":
-            s = db.session.query(Movie).filter().order_by(desc(Movie.year))
-            return movies_schema.dump(s)
-        elif page is not None and status is None:
-            s = db.session.query(Movie).filter().limit(12).offset(page)
-            return movies_schema.dump(s)
-        else:
-            s = db.session.query(Movie)
-            return movies_schema.dump(s)
+        director = request.args.get("director_id")
+        genre = request.args.get("genre_id")
+        year = request.args.get("year")
+        filters = {
+            "director_id": director,
+            "genre_id": genre,
+            "year": year,
+        }
+        all_movies = movie_service.get_all(filters)
+        res = MovieSchema(many=True).dump(all_movies)
+        return res, 200
 
     def post(self):
         req_json = request.json
-        new_movie = Movie(**req_json)
-        with db.session.begin():
-            db.session.add(new_movie)
-        return "", 201
+        movie = movie_service.create(req_json)
+        return "", 201, {"location": f"/movies/{movie.id}"}
 
 
-@movies_ns.route('/<int:mid>')
+@movies_ns.route('/<int:bid>')
 class MovieView(Resource):
+    def get(self, bid):
+        b = movie_service.get_one(bid)
+        sm_d = MovieSchema().dump(b)
+        return sm_d, 200
 
-    def get(self, mid):
-        try:
-            movie = db.session.query(Movie).filter(Movie.id == mid).one()
-            return movie_schema.dump(movie), 200
-        except Exception as e:
-            return str(e), 404
-
-    def put(self, mid):
-        movie = db.session.query(Movie).get(mid)
+    def put(self, bid):
         req_json = request.json
-
-        movie.id = req_json.get("id")
-        movie.title = req_json.get("title")
-        movie.description = req_json.get("description")
-        movie.trailer = req_json.get("trailer")
-        movie.year = req_json.get("year")
-        movie.rating = req_json.get("rating")
-        movie.genre_id = req_json.get("genre_id")
-        movie.director_id = req_json.get("director_id")
-
-        db.session.add(movie)
-        db.session.commit()
-
+        if "id" not in req_json:
+            req_json["id"] = bid
+        movie_service.update(req_json)
         return "", 204
 
-    def delete(self, mid):
-        movie = Movie.query.get(mid)
-        db.session.delete(movie)
-        db.session.commit()
+    def delete(self, bid):
+        movie_service.delete(bid)
         return "", 204

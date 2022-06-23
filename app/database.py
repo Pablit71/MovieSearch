@@ -3,7 +3,7 @@ import hashlib
 import sqlite3
 
 import jwt
-from flask import request, abort, current_app
+from flask import request, abort
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()

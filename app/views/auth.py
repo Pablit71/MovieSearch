@@ -6,8 +6,8 @@ import jwt
 from flask import request, abort
 from flask_restx import Resource, Namespace
 
-from app.models import User
-from app.database import db, edit_pass, secret, algo, PWD_HASH_SALT, PWD_HASH_ITERATIONS, encode_h, encode_hash
+from app.database import db, edit_pass, secret, algo, encode_h, encode_hash
+from dao.model.user import User
 
 auth_ns = Namespace('auth')
 

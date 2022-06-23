@@ -6,8 +6,8 @@ import jwt
 from flask import request
 from flask_restx import Resource, Namespace
 
-from app.models import UserSchema, User
 from app.database import db, edit_pass_put, auth_required
+from dao.model.user import UserSchema, User
 
 users_ns = Namespace('users')
 
