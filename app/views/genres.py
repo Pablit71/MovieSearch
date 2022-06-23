@@ -2,7 +2,7 @@ from flask import request
 from flask_restx import Resource, Namespace
 
 from app.models import GenreSchema, Genre
-from app.database import db, admin_required, admin_auth
+from app.database import db
 
 genres_ns = Namespace('genres')
 

@@ -1,33 +1,49 @@
 PUT http://127.0.0.1:5000/users/password/1
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiYidTVi9TMzRteUxCTXQyWkFlTXN4R0VNa2NFcjNDa0w2Y2VySzFOT2xkV1Y4PSciLCJleHAiOjE2NTU5OTI0MzJ9.ZYUo3xVd3nnuLXKlq64rB5wJzJ5-w39eR6qAYOgBNpA
 
 {
   "password_1": "password1",
-"password_2": "password2"
+  "password_2": "password2"
 }
+
 ###
 GET http://127.0.0.1:5000/users
+
 ###
 POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
 
 {
   "email": "user1@gmail.com",
-"password": "password1"
+  "password": "password1"
 }
+
 ###
 POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
 
 {
   "email": "user2@gmail.com",
-"password": "password2"
+  "password": "password2"
 }
+
 ###
 POST http://127.0.0.1:5000/auth/register
 Content-Type: application/json
 
 {
   "email": "user3@yandex.ru",
-"password": "password3"
+  "password": "password3"
 }
+
+###
+
+POST http://127.0.0.1:5000/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.com",
+  "password": "password1"
+}
+###

@@ -1,9 +1,7 @@
-import json
-from flask import request, jsonify
+from flask import request
 from flask_restx import Resource, Namespace
-from app.database import connect, admin_required, admin_auth
 
-from app.models import MovieSchema, Movie, User
+from app.models import MovieSchema, Movie
 from app.database import db
 from sqlalchemy import desc
 
@@ -37,7 +35,6 @@ class MoviesView(Resource):
         with db.session.begin():
             db.session.add(new_movie)
         return "", 201
-
 
 
 @movies_ns.route('/<int:mid>')

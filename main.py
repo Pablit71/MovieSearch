@@ -3,11 +3,11 @@ from flask_restx import Api
 
 from app.config import Config
 from app.database import db
-from app.models import User
 from app.views.directors import directors_ns
 from app.views.genres import genres_ns
 from app.views.movies import movies_ns
-from app.views.users import users_ns, auth_ns
+from app.views.users import users_ns
+from app.views.auth import auth_ns
 
 
 def create_app(config: Config) -> Flask:
