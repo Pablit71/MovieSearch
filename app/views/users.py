@@ -22,17 +22,18 @@ class UsersView(Resource):
         return users_schema.dump(all_users), 200
 
 
-@users_ns.route('/password/<int:uid>')
+@users_ns.route('/password/')
 class UsersView(Resource):
     @auth_required
-    def put(self, uid):
+    def put(self):
+        email = request.json.get('email')
         data_old = {
             'password': request.json.get('password_1')
         }
         data_new = {
             'password': request.json.get('password_2')
         }
-        edit_pass_put(data_1=data_old, uid=uid, class_input=User, data_2=data_new)
+        edit_pass_put(data_1=data_old, email=email, class_input=User, data_2=data_new)
 
         return "", 204
 

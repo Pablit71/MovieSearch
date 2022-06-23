@@ -6,6 +6,7 @@ import jwt
 from flask import request, abort
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 PWD_HASH_SALT = base64.b64decode("salt")
 PWD_HASH_ITERATIONS = 100
@@ -27,6 +28,7 @@ def auth_required(func):
         if 'Authorization' not in request.headers:
             abort(401)
         data = request.headers['Authorization']
+        print(data)
         token = data.split("Bearer ")[-1]
         try:
             jwt.decode(token, secret, algorithms=[algo])
@@ -75,20 +77,20 @@ def edit_pass(data):
     return data
 
 
-def edit_pass_put(data_1, uid, class_input, data_2):
+def edit_pass_put(data_1, email, class_input, data_2):
     request_pass_1 = edit_pass(data_1)
     query = f"""
         select password
         from user 
-        where id = '{uid}'
+        where email = '{email}'
         """
     response = connect(query)[0][0]
     if response == data_1['password']:
         print(f'response - {response}')
         password_edit = edit_pass(data_2)
         print(f'password_edit - {password_edit}')
-        user = class_input.query.get(uid)
-        print(f'user - {user.password}')
+        user = db.session.query(class_input).filter(class_input.email == email).one()
+        print(f'user - {user}')
         user.password = password_edit['password']
         print(f'user.password - {user.password}')
         db.session.add(user)

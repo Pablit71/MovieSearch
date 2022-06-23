@@ -1,10 +1,11 @@
-PUT http://127.0.0.1:5000/users/password/1
+PUT http://127.0.0.1:5000/users/password/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiYidTVi9TMzRteUxCTXQyWkFlTXN4R0VNa2NFcjNDa0w2Y2VySzFOT2xkV1Y4PSciLCJleHAiOjE2NTU5OTI0MzJ9.ZYUo3xVd3nnuLXKlq64rB5wJzJ5-w39eR6qAYOgBNpA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXIxQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiYidTVi9TMzRteUxCTXQyWkFlTXN4R0VNa2NFcjNDa0w2Y2VySzFOT2xkV1Y4PSciLCJleHAiOjE2NTYwMDQzMDF9.sQAJD_WcsQ37K0Kaq4gTOAaiMYQoBFSWlEAsG5GqQ2M
 
 {
+  "email": "user1@gmail.com",
   "password_1": "password1",
-  "password_2": "password2"
+  "password_2": "password3"
 }
 
 ###

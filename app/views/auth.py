@@ -32,7 +32,6 @@ class AutView(Resource):
         req_json = request.json
         email = req_json.get("email", None)
         password = req_json.get("password", None)
-        print(email, password)
         if None in [email, password]:
             abort(400)
 
@@ -50,7 +49,6 @@ class AutView(Resource):
         data = {
             "email": user.email, "password": password_hash
         }
-        print(data['password'])
         min30 = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
         data["exp"] = calendar.timegm(min30.timetuple())
         access_token = jwt.encode(data, secret, algorithm=algo)
