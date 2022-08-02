@@ -31,4 +31,4 @@ if __name__ == '__main__':
     app_config = Config()
     app = create_app(app_config)
     configure_app(app)
-    app.run()
+    app.run(host="0.0.0.0", port=80)
